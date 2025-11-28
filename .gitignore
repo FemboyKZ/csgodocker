@@ -1,4 +1,5 @@
-docker-compose.*
+docker-compose-*
+!docker-compose-example*
 layers/*
 mounts/*
 watchdog/*
