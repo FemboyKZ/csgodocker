@@ -150,4 +150,4 @@ cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
     }
 EOF
 
-"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nohltv -noautoupdate -tickrate $TICKRATE "$EXTRA_LAUNCH_OPTS" -apikey "$WS_APIKEY" +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
+"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE "$EXTRA_LAUNCH_OPTS" -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
