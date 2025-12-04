@@ -67,9 +67,10 @@ EOF
 install_layer "MetaMod"
 install_layer "SourceMod"
 
-#rm "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
+rm "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
 rm "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
 rm "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
+rm "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
 
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/mapchooser.smx" "$server_dir/csgo/addons/sourcemod/plugins/mapchooser.smx"
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/rockthevote.smx" "$server_dir/csgo/addons/sourcemod/plugins/rockthevote.smx"
@@ -90,18 +91,15 @@ sed -i -E "s/(\"FollowCSGOServerGuidelines\"[[:space:]]+)\"[^\"]+\"/\1\"no\"/" "
 install_layer "SBPP"
 append_database "sourcebans" "$DB_SBPP_DRIVER" "$DB_SBPP_HOST" "$DB_SBPP_PORT" "$DB_SBPP_NAME" "$DB_SBPP_USER" "$DB_SBPP_PASS"
 sed -i "s/\"ServerID\"\s*\"[^\"]*\"/\"ServerID\"\t\t\"${SBPP_SERVERID}\"/" "$server_dir/csgo/addons/sourcemod/configs/sourcebans/sourcebans.cfg"
+rm "$server_dir/csgo/addons/sourcemod/plugins/basebans.smx"
 
 install_layer "CowAC"
 
-if [[ "$FKZ_MAPTEST" == "true" ]]; then
+if [[ "$MODE" == "fkz-maptest" ]]; then
     install_layer "fkz-maptest"
-fi
-
-if [[ "$MODE" == "fkz" ]]; then
+elif [[ "$MODE" == "fkz" ]]; then
     install_layer "fkz"
-fi
-
-if [[ "$MODE" == "fkz-64t" ]]; then
+elif [[ "$MODE" == "fkz-64t" ]]; then
     install_layer "fkz-64t"
     cat <<EOF >> "$server_dir/csgo/cfg/server.cfg"
 
@@ -111,8 +109,8 @@ if [[ "$MODE" == "fkz-64t" ]]; then
 EOF
 fi
 
-if [[ "$WHITELIST" == "fkz" ]]; then
-    install_layer "fkz-whitelist"
+if [[ "$WHITELIST" == "true" ]]; then
+    install_layer "whitelist"
 fi
 
 mkdir -p "mounts/gokz-replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
