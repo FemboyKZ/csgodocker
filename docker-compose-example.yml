@@ -14,9 +14,15 @@ services:
     stdin_open: true
     volumes:
       - ./watchdog:/watchdog
-  csgoserver1:
+    logging:
+      driver: json-file
+      options:
+        max-file: 5
+        max-size: 10m
+    network_mode: bridge
+  csgo-server-1:
     image: csgoserver
-    container_name: csgoserver1
+    container_name: csgo-server-1
     restart: unless-stopped
     user: 1000:1000
     tty: true
@@ -24,34 +30,62 @@ services:
     logging:
       driver: json-file
       options:
-        max-file: "3"
-    ports:
+        max-file: 5
+        max-size: 10m
+    network_mode: bridge
+    ports: 
       - 27015:27015/udp
       - 27015:27015/tcp
     environment:
       <<: *default-env
-      ID: csgoserver1 # unique ID for this server, used for mount folders
-      HOSTNAME: csgoserver
-      GSLT: # https://steamcommunity.com/dev/managegameservers
+      ID: 1 # unique ID for this server, used for mount folders
+      HOSTNAME: Kreedz | EU | Public | 128t VNL Global
+      GSLT: "" # https://steamcommunity.com/dev/managegameservers
       IP: 0.0.0.0
       IP_DOMAIN: somedomain.com
       PORT: 27015
       RCON_PASSWORD: changeme
+      PASSWORD: ""
       TICKRATE: 128
       EXTRA_LAUNCH_OPTS: "" # extra launch options
       MAP: de_nuke
       REGION: EU # server region code (EU, NA)
       TAGS: eu,public,csgo # comma separated list of tags
-      DB_MODE: sqlite # database mode (mysql/sqlite)
-      DB_NAME: csgoserver1 # database name for this server
-      DB_HOST: localhost
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASS: root
-      MAPTEST: false # enable map testing mode (true/false)
+      # Database settings
+      DB_CLIENTPREFS_DRIVER: sqlite # database mode (mysql/sqlite)
+      DB_CLIENTPREFS_NAME: clientprefs-sqlite # database name
+      DB_CLIENTPREFS_HOST: 127.0.0.1 # database host
+      DB_CLIENTPREFS_PORT: 3306 # database port
+      DB_CLIENTPREFS_USER: # database user
+      DB_CLIENTPREFS_PASS: # database password
+      DB_GOKZ_DRIVER: sqlite # database mode (mysql/sqlite)
+      DB_GOKZ_NAME: gokz-sqlite # database name
+      DB_GOKZ_HOST: 127.0.0.1 # database host
+      DB_GOKZ_PORT: 3306 # database port
+      DB_GOKZ_USER: # database user
+      DB_GOKZ_PASS: # database password
+      DB_MORESTATS_DRIVER: sqlite # database mode (mysql/sqlite)
+      DB_MORESTATS_NAME: more-stats-sqlite # database name
+      DB_MORESTATS_HOST: 127.0.0.1 # database host
+      DB_MORESTATS_PORT: 3306 # database port
+      DB_MORESTATS_USER: "" # database user
+      DB_MORESTATS_PASS: "" # database password
+      DB_SBPP_DRIVER: sqlite # database mode (mysql/sqlite)
+      DB_SBPP_NAME: sourcebanspp-sqlite # database name
+      DB_SBPP_HOST: 127.0.0.1 # database host
+      DB_SBPP_PORT: 3306 # database port
+      DB_SBPP_USER: # database user
+      DB_SBPP_PASS: # database password
+      DB_NODUPE_DRIVER: sqlite # database mode (mysql/sqlite)
+      DB_NODUPE_NAME: nodupe-sqlite # database name
+      DB_NODUPE_HOST: 127.0.0.1 # database host
+      DB_NODUPE_PORT: 3306 # database port
+      DB_NODUPE_USER: # database user
+      DB_NODUPE_PASS: # database password
+      SBPP_SERVERID: -1 # sourcebans++ server ID, -1 to disable
       WHITELIST: false  # enable whitelist-only mode (true/false)
-      MODE: gokz # server mode (kztimer, gokz)
-      KZ_APIKEY: 0 # kz apikey
+      MODE: "" # server mode (kztimer, gokz)
+      KZ_APIKEY: "" # kz apikey
     volumes:
       - ./watchdog:/watchdog
       - ./layers:/layers:ro
