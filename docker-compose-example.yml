@@ -32,10 +32,7 @@ services:
       options:
         max-file: 5
         max-size: 10m
-    network_mode: bridge
-    ports: 
-      - 27015:27015/udp
-      - 27015:27015/tcp
+    network_mode: host
     environment:
       <<: *default-env
       ID: 1 # unique ID for this server, used for mount folders
@@ -85,7 +82,8 @@ services:
       SBPP_SERVERID: -1 # sourcebans++ server ID, -1 to disable
       WHITELIST: false  # enable whitelist-only mode (true/false)
       AC: true # enable CowAC & AntiDLL (true/false)
-      MODE: "" # server mode (kztimer, gokz)
+      ABH: false # enable ABH (true/false)
+      MODE: "" # server mode (server specific configs)
       KZ_APIKEY: "" # kz apikey
     volumes:
       - ./watchdog:/watchdog

@@ -105,16 +105,21 @@ if [[ "$MODE" == "fkz-maptest" ]]; then
     install_layer "fkz-maptest"
 elif [[ "$MODE" == "fkz" ]]; then
     install_layer "fkz"
-elif [[ "$MODE" == "fkz-64t" ]]; then
-    install_layer "fkz-64t"
+elif [[ "$MODE" == "boakz" ]]; then
+    install_layer "boakz"
+fi
+
+if [[ "$TICKRATE" == "64" ]]; then
+    install_layer "64t"
+fi
+
+if [[ "ABH" == "true" ]]; then
     cat <<EOF >> "$server_dir/csgo/cfg/server.cfg"
 
     sv_cheats 1
     sv_autobunnyhopping 1
     sv_cheats 0
 EOF
-elif [[ "$MODE" == "boakz" ]]; then
-    install_layer "boakz"
 fi
 
 mkdir -p "mounts/gokz-replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
