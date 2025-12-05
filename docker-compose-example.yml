@@ -84,6 +84,7 @@ services:
       DB_NODUPE_PASS: # database password
       SBPP_SERVERID: -1 # sourcebans++ server ID, -1 to disable
       WHITELIST: false  # enable whitelist-only mode (true/false)
+      AC: true # enable CowAC & AntiDLL (true/false)
       MODE: "" # server mode (kztimer, gokz)
       KZ_APIKEY: "" # kz apikey
     volumes:

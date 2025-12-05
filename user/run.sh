@@ -93,7 +93,13 @@ append_database "sourcebans" "$DB_SBPP_DRIVER" "$DB_SBPP_HOST" "$DB_SBPP_PORT" "
 sed -i "s/\"ServerID\"\s*\"[^\"]*\"/\"ServerID\"\t\t\"${SBPP_SERVERID}\"/" "$server_dir/csgo/addons/sourcemod/configs/sourcebans/sourcebans.cfg"
 rm "$server_dir/csgo/addons/sourcemod/plugins/basebans.smx"
 
-install_layer "CowAC"
+if [[ "$AC" == "true" ]]; then
+    install_layer "CowAC"
+fi
+
+if [[ "$WHITELIST" == "true" ]]; then
+    install_layer "whitelist"
+fi
 
 if [[ "$MODE" == "fkz-maptest" ]]; then
     install_layer "fkz-maptest"
@@ -107,10 +113,8 @@ elif [[ "$MODE" == "fkz-64t" ]]; then
     sv_autobunnyhopping 1
     sv_cheats 0
 EOF
-fi
-
-if [[ "$WHITELIST" == "true" ]]; then
-    install_layer "whitelist"
+elif [[ "$MODE" == "boakz" ]]; then
+    install_layer "boakz"
 fi
 
 mkdir -p "mounts/gokz-replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
