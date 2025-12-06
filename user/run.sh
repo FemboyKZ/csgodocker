@@ -124,7 +124,7 @@ if [[ "ABH" == "true" ]]; then
 EOF
 fi
 
-mkdir -p "mounts/gokz-replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
+mkdir -p "mounts/replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
 
 install_mount "mapcycle.txt" "mapcycle.txt"
 install_mount "maps" "maps"
