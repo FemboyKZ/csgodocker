@@ -22,31 +22,67 @@ def fetch_and_save_member_ids(group_url_name):
 
     member_ids = data_dict["memberList"]["members"]["steamID64"]
     
-    existing_ids = set()
+    group_steamids = set()
+    for steamid64 in member_ids:
+        steamid = steamid64_to_steamid(steamid64)
+        group_steamids.add(steamid)
+    
+    file_lines = []
+    group_section_start = -1
+    group_section_end = -1
+    
     try:
         with open(f"{txt_name}.txt", "r") as file:
-            for line in file:
-                line = line.strip()
-                if line and not line.startswith(';'):
-                    steamid = line.split(';')[0].strip()
-                    if steamid and steamid.startswith('STEAM_'):
-                        existing_ids.add(steamid)
+            file_lines = file.readlines()
+            
+        for i, line in enumerate(file_lines):
+            if "; AUTO-MANAGED GROUP MEMBERS - START" in line:
+                group_section_start = i
+            elif "; AUTO-MANAGED GROUP MEMBERS - END" in line:
+                group_section_end = i
+                break
     except FileNotFoundError:
         pass
-    
-    new_steamids = []
-    for steamid64 in sorted(member_ids):
-        steamid = steamid64_to_steamid(steamid64)
-        if steamid not in existing_ids:
-            new_steamids.append(steamid)
-    
-    if new_steamids:
-        with open(f"{txt_name}.txt", "a") as file:
-            for steamid in new_steamids:
-                file.write(f"{steamid}\n")
-        print(f"Added {len(new_steamids)} new SteamIDs")
+
+    new_lines = []
+
+    if group_section_start == -1:
+        new_lines = file_lines
+        if new_lines and not new_lines[-1].endswith('\n'):
+            new_lines.append('\n')
+        new_lines.append('\n; AUTO-MANAGED GROUP MEMBERS - START\n')
+        for steamid in sorted(group_steamids):
+            new_lines.append(f"{steamid}\n")
+        new_lines.append('; AUTO-MANAGED GROUP MEMBERS - END\n')
+        added = len(group_steamids)
+        removed = 0
     else:
-        print("No new SteamIDs to add")
+        new_lines = file_lines[:group_section_start]
+        
+        old_group_ids = set()
+        for i in range(group_section_start + 1, group_section_end):
+            line = file_lines[i].strip()
+            if line and not line.startswith(';'):
+                steamid = line.split(';')[0].strip()
+                if steamid.startswith('STEAM_'):
+                    old_group_ids.add(steamid)
+        
+        added = len(group_steamids - old_group_ids)
+        removed = len(old_group_ids - group_steamids)
+
+        new_lines.append('; AUTO-MANAGED GROUP MEMBERS - START\n')
+        for steamid in sorted(group_steamids):
+            new_lines.append(f"{steamid}\n")
+        new_lines.append('; AUTO-MANAGED GROUP MEMBERS - END\n')
+        
+        if group_section_end + 1 < len(file_lines):
+            new_lines.extend(file_lines[group_section_end + 1:])
+    
+    with open(f"{txt_name}.txt", "w") as file:
+        file.writelines(new_lines)
+    
+    print(f"Added {added} new SteamIDs, removed {removed} old SteamIDs")
+    print(f"Total group members: {len(group_steamids)}")
 
 
 if __name__ == "__main__":
