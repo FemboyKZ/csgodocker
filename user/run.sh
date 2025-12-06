@@ -99,6 +99,8 @@ fi
 
 if [[ "$WHITELIST" == "true" ]]; then
     install_layer "whitelist"
+    mkdir -p "mounts/$ID/whitelist"
+    install_mount "$ID/whitelist" "addons/sourcemod/configs/whitelist"
 fi
 
 if [[ "$MODE" == "fkz-maptest" ]]; then
