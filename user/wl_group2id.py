@@ -5,11 +5,10 @@ import sys
 
 def steamid64_to_steamid(steamid64):
     steamid64 = int(steamid64)
-    universe = 0 if steamid64 < 103603000000000000 else 1
     account_id = (steamid64 - 76561197960265728) & 0xFFFFFFFF
     y = account_id & 1
     z = (account_id - y) >> 1
-    return f"STEAM_{universe}:{y}:{z}"
+    return f"STEAM_1:{y}:{z}"
 
 
 def fetch_and_save_member_ids(group_url_name):
