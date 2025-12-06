@@ -2,7 +2,7 @@ FROM registry.gitlab.steamos.cloud/steamrt/sniper/sdk
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests \
-        jq \
+        jq python3 python3-pip python3-requests python3-xmltodict \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
