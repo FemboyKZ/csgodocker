@@ -81,6 +81,7 @@ rm "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
 rm "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
 rm "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
 rm "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
+rm "$server_dir/csgo/addons/sourcemod/plugins/nextmap.smx"
 
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/mapchooser.smx" "$server_dir/csgo/addons/sourcemod/plugins/mapchooser.smx"
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/rockthevote.smx" "$server_dir/csgo/addons/sourcemod/plugins/rockthevote.smx"
