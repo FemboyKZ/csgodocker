@@ -129,6 +129,9 @@ fi
 
 if [[ "$TICKRATE" == "64" ]]; then
     install_layer "64t"
+    rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-simplekz.smx"
+    rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-kztimer.smx"
+    rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
 fi
 
 if [[ "ABH" == "true" ]]; then
