@@ -134,7 +134,7 @@ if [[ "$TICKRATE" == "64" ]]; then
     rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
 fi
 
-if [[ "ABH" == "true" ]]; then
+if [[ "$ABH" == "true" ]]; then
     cat <<EOF >> "$server_dir/csgo/cfg/server.cfg"
 
     sv_cheats 1
