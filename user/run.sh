@@ -148,7 +148,11 @@ EOF
 fi
 
 install_mount "mapcycle.txt" "mapcycle.txt"
-install_mount "maps" "maps"
+
+# Only mount custom maps folder if it has content, otherwise keep base game maps
+if [ "$(ls -A /mounts/maps 2>/dev/null)" ]; then
+    install_mount "maps" "maps"
+fi
 
 install_mount "banned_user.cfg" "cfg/banned_user.cfg"
 install_mount "banned_ip.cfg" "cfg/banned_ip.cfg"
@@ -184,4 +188,4 @@ cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
     }
 EOF
 
-"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE "$EXTRA_LAUNCH_OPTS" -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
+"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE $EXTRA_LAUNCH_OPTS -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
