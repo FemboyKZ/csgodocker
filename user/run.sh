@@ -4,7 +4,7 @@ set -ueEo pipefail
 
 databases_cfg=""
 append_database() {
-    databases_cfg+="\n\"$1\"\n{\ndriver \"$2\"\nhost \"$3\"\nport \"$4\"\ndatabase \"$5\"\nuser \"$6\"\npass \"$7\"\n}\n"
+    databases_cfg+="\n\"$1\"\n{\ndriver \"$2\"\nhost \"$3\"\nport \"$4\"\ndatabase \"$5\"\nuser \"$6\"\npass \"$7\"\ntimeout \"$8\"\n}\n"
 }
 
 install_layer() {
@@ -74,6 +74,10 @@ cat <<EOF > "$server_dir/csgo/cfg/server.cfg"
     mp_restartgame 1
 EOF
 
+cat <<EOF > "$server_dir/csgo/webapi_authkey.txt"
+$WS_APIKEY
+EOF
+
 install_layer "MetaMod"
 install_layer "SourceMod"
 
@@ -87,20 +91,20 @@ cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/mapchooser.smx" "$server_
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/rockthevote.smx" "$server_dir/csgo/addons/sourcemod/plugins/rockthevote.smx"
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/nominations.smx" "$server_dir/csgo/addons/sourcemod/plugins/nominations.smx"
 
-append_database "clientprefs" "$DB_CLIENTPREFS_DRIVER" "$DB_CLIENTPREFS_HOST" "$DB_CLIENTPREFS_PORT" "$DB_CLIENTPREFS_NAME" "$DB_CLIENTPREFS_USER" "$DB_CLIENTPREFS_PASS"
+append_database "clientprefs" "$DB_CLIENTPREFS_DRIVER" "$DB_CLIENTPREFS_HOST" "$DB_CLIENTPREFS_PORT" "$DB_CLIENTPREFS_NAME" "$DB_CLIENTPREFS_USER" "$DB_CLIENTPREFS_PASS" "30"
 
 install_layer "MovementAPI"
 install_layer "GOKZ"
-append_database "gokz" "$DB_GOKZ_DRIVER" "$DB_GOKZ_HOST" "$DB_GOKZ_PORT" "$DB_GOKZ_NAME" "$DB_GOKZ_USER" "$DB_GOKZ_PASS"
+append_database "gokz" "$DB_GOKZ_DRIVER" "$DB_GOKZ_HOST" "$DB_GOKZ_PORT" "$DB_GOKZ_NAME" "$DB_GOKZ_USER" "$DB_GOKZ_PASS" "0"
 echo $KZ_APIKEY > "$server_dir/csgo/cfg/sourcemod/globalapi-key.cfg"
 
 install_layer "MiscPlugins"
-append_database "more-stats" "$DB_MORESTATS_DRIVER" "$DB_MORESTATS_HOST" "$DB_MORESTATS_PORT" "$DB_MORESTATS_NAME" "$DB_MORESTATS_USER" "$DB_MORESTATS_PASS"
-append_database "no_dupe_account" "$DB_NODUPE_DRIVER" "$DB_NODUPE_HOST" "$DB_NODUPE_PORT" "$DB_NODUPE_NAME" "$DB_NODUPE_USER" "$DB_NODUPE_PASS"
+append_database "more-stats" "$DB_MORESTATS_DRIVER" "$DB_MORESTATS_HOST" "$DB_MORESTATS_PORT" "$DB_MORESTATS_NAME" "$DB_MORESTATS_USER" "$DB_MORESTATS_PASS" "0"
+append_database "no_dupe_account" "$DB_NODUPE_DRIVER" "$DB_NODUPE_HOST" "$DB_NODUPE_PORT" "$DB_NODUPE_NAME" "$DB_NODUPE_USER" "$DB_NODUPE_PASS" "0"
 sed -i -E "s/(\"FollowCSGOServerGuidelines\"[[:space:]]+)\"[^\"]+\"/\1\"no\"/" "$server_dir/csgo/addons/sourcemod/configs/core.cfg"
 
 install_layer "SBPP"
-append_database "sourcebans" "$DB_SBPP_DRIVER" "$DB_SBPP_HOST" "$DB_SBPP_PORT" "$DB_SBPP_NAME" "$DB_SBPP_USER" "$DB_SBPP_PASS"
+append_database "sourcebans" "$DB_SBPP_DRIVER" "$DB_SBPP_HOST" "$DB_SBPP_PORT" "$DB_SBPP_NAME" "$DB_SBPP_USER" "$DB_SBPP_PASS" "0"
 sed -i "s/\"ServerID\"\s*\"[^\"]*\"/\"ServerID\"\t\t\"${SBPP_SERVERID}\"/" "$server_dir/csgo/addons/sourcemod/configs/sourcebans/sourcebans.cfg"
 rm "$server_dir/csgo/addons/sourcemod/plugins/basebans.smx"
 
@@ -145,6 +149,9 @@ fi
 
 install_mount "mapcycle.txt" "mapcycle.txt"
 install_mount "maps" "maps"
+
+install_mount "banned_user.cfg" "cfg/banned_user.cfg"
+install_mount "banned_ip.cfg" "cfg/banned_ip.cfg"
 
 install_mount "replays/$TICKRATE" "addons/sourcemod/data/gokz-replays"
 install_mount "$ID/sqlite" "addons/sourcemod/data/sqlite"
