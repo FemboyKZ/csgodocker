@@ -81,11 +81,11 @@ EOF
 install_layer "MetaMod"
 install_layer "SourceMod"
 
-rm "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
-rm "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
-rm "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
-rm "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
-rm "$server_dir/csgo/addons/sourcemod/plugins/nextmap.smx"
+rm -f "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
+rm -f "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
+rm -f "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
+rm -f "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
+rm -f "$server_dir/csgo/addons/sourcemod/plugins/nextmap.smx"
 
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/mapchooser.smx" "$server_dir/csgo/addons/sourcemod/plugins/mapchooser.smx"
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/rockthevote.smx" "$server_dir/csgo/addons/sourcemod/plugins/rockthevote.smx"
@@ -118,6 +118,11 @@ if [[ "$WHITELIST" == "true" ]]; then
     install_mount "$ID/whitelist" "addons/sourcemod/configs/whitelist"
 fi
 
+if [[ "$WHITELIST" != "true" && "$KZ_MAPTIERS" == "true" ]]; then
+    rm -f "$server_dir/csgo/addons/sourcemod/plugins/mapchooser.smx"
+    install_layer "KZTierMapchooser"
+fi
+
 if [[ "$MODE" == "fkz-maptest" ]]; then
     install_layer "fkz-maptest"
     install_mount_admins "$ID"
@@ -133,12 +138,13 @@ fi
 
 if [[ "$TICKRATE" == "64" ]]; then
     install_layer "64t"
-    rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-simplekz.smx"
-    rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-kztimer.smx"
-    rm "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
+    rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-simplekz.smx"
+    rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-kztimer.smx"
+    rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
 fi
 
 if [[ "$ABH" == "true" ]]; then
+    rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
     cat <<EOF >> "$server_dir/csgo/cfg/server.cfg"
 
     sv_cheats 1

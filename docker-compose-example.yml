@@ -85,6 +85,7 @@ services:
       ABH: false # enable ABH (true/false)
       MODE: "" # server mode (server specific configs)
       KZ_APIKEY: "" # kz apikey
+      KZ_MAPTIERS: false # enable maptiers integration (true/false)
     volumes:
       - ./watchdog:/watchdog
       - ./layers:/layers:ro
