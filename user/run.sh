@@ -44,9 +44,9 @@ cat <<EOF > "$server_dir/csgo/cfg/server.cfg"
     sv_tags "$TAGS"
 
     sv_downloadurl "$FASTDL_URL"
-    sv_allowdownload 1
-    sv_allowupload 1
-    sv_workshop_allow_other_maps 1
+    //sv_allowdownload 1
+    //sv_allowupload 1
+    //sv_workshop_allow_other_maps 1
     sv_pure 0
     sv_pure_kick_clients 0
 
@@ -74,9 +74,8 @@ cat <<EOF > "$server_dir/csgo/cfg/server.cfg"
     mp_restartgame 1
 EOF
 
-cat <<EOF > "$server_dir/csgo/webapi_authkey.txt"
-$WS_APIKEY
-EOF
+rm -rf "$server_dir/csgo/webapi_authkey.txt"
+echo "$WS_APIKEY" > "$server_dir/csgo/webapi_authkey.txt"
 
 install_layer "MetaMod"
 install_layer "SourceMod"
@@ -172,26 +171,42 @@ install_mount "$ID/logs/GlobalAPI" "addons/sourcemod/data/GlobalAPI"
 install_mount "$ID/logs/GlobalAPI-Retrying" "addons/sourcemod/data/GlobalAPI-Retrying"
 
 cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
-    "Databases"
-    {
-        "driver_default"		"mysql"
-        "default"
-	    {
-		    "driver"			"default"
-		    "host"				"localhost"
-		    "database"			"sourcemod"
-		    "user"				"root"
-		    "pass"				""
-		    //"timeout"			"0"
-		    //"port"			"0"
-	    }
-        "storage-local"
-	    {
-		    "driver"			"sqlite"
-		    "database"			"sourcemod-local"
-	    }
-        $(echo -e "$databases_cfg")
-    }
+"Databases"
+{
+    "driver_default"		"mysql"
+    "default"
+	{
+		"driver"			"default"
+		"host"				"localhost"
+		"database"			"sourcemod"
+		"user"				"root"
+		"pass"				""
+		//"timeout"			"0"
+		//"port"			"0"
+	}
+    "storage-local"
+	{
+		"driver"			"sqlite"
+		"database"			"sourcemod-local"
+	}
+    $(echo -e "$databases_cfg")
+}
 EOF
 
-"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE $EXTRA_LAUNCH_OPTS -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
+actual_gslt=""
+
+if [[ "$NEW_APPID" == "true" ]]; then
+    # Whether to use new CS:GO appid (4465480)
+    if [[ "$GSLT_NEW" != "" ]]; then
+        actual_gslt="$GSLT_NEW"
+    else
+        echo "WARNING: NEW_APPID is true but GSLT_NEW is empty, using old GSLT."
+        actual_gslt="$GSLT"
+    fi
+
+    sed -i 's/appID=730/appID=4465480/' "$server_dir/csgo/steam.inf"
+else 
+    actual_gslt="$GSLT"
+fi
+
+"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE $EXTRA_LAUNCH_OPTS -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$actual_gslt" +map "$MAP" +exec "server.cfg"

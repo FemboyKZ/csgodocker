@@ -38,6 +38,7 @@ services:
       ID: 1 # unique ID for this server, used for mount folders
       HOSTNAME: Kreedz | EU | Public | 128t VNL Global
       GSLT: "" # https://steamcommunity.com/dev/managegameservers
+      GSLT_NEW: "" # gslt for new app ID (4465480)
       IP: 0.0.0.0
       IP_DOMAIN: somedomain.com
       PORT: 27015
@@ -86,6 +87,7 @@ services:
       MODE: "" # server mode (server specific configs)
       KZ_APIKEY: "" # kz apikey
       KZ_MAPTIERS: false # enable maptiers integration (true/false)
+      NEW_APPID: false # whether to run server with new app ID (4465480) (true/false)
     volumes:
       - ./watchdog:/watchdog
       - ./layers:/layers:ro
