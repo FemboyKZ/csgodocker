@@ -50,36 +50,13 @@ services:
       REGION: EU # server region code (EU, NA)
       TAGS: eu,public,csgo # comma separated list of tags
       # Database settings
-      DB_CLIENTPREFS_DRIVER: sqlite # database mode (mysql/sqlite)
-      DB_CLIENTPREFS_NAME: clientprefs-sqlite # database name
-      DB_CLIENTPREFS_HOST: 127.0.0.1 # database host
-      DB_CLIENTPREFS_PORT: 3306 # database port
-      DB_CLIENTPREFS_USER: # database user
-      DB_CLIENTPREFS_PASS: # database password
-      DB_GOKZ_DRIVER: sqlite # database mode (mysql/sqlite)
-      DB_GOKZ_NAME: gokz-sqlite # database name
-      DB_GOKZ_HOST: 127.0.0.1 # database host
-      DB_GOKZ_PORT: 3306 # database port
-      DB_GOKZ_USER: # database user
-      DB_GOKZ_PASS: # database password
-      DB_MORESTATS_DRIVER: sqlite # database mode (mysql/sqlite)
-      DB_MORESTATS_NAME: more-stats-sqlite # database name
-      DB_MORESTATS_HOST: 127.0.0.1 # database host
-      DB_MORESTATS_PORT: 3306 # database port
-      DB_MORESTATS_USER: "" # database user
-      DB_MORESTATS_PASS: "" # database password
-      DB_SBPP_DRIVER: sqlite # database mode (mysql/sqlite)
-      DB_SBPP_NAME: sourcebanspp-sqlite # database name
-      DB_SBPP_HOST: 127.0.0.1 # database host
-      DB_SBPP_PORT: 3306 # database port
-      DB_SBPP_USER: # database user
-      DB_SBPP_PASS: # database password
-      DB_NODUPE_DRIVER: sqlite # database mode (mysql/sqlite)
-      DB_NODUPE_NAME: nodupe-sqlite # database name
-      DB_NODUPE_HOST: 127.0.0.1 # database host
-      DB_NODUPE_PORT: 3306 # database port
-      DB_NODUPE_USER: # database user
-      DB_NODUPE_PASS: # database password
+      DB_PORT: 3306
+      DB_HOST: localhost
+      DB_DRIVER: sqlite
+      DB_USER: root
+      DB_PASS: ""
+      DB_TICKRATE_NAME: sourcemod_128 # tickrate specific db name, e.g for gokz
+      DB_SHARED_NAME: sourcemod # shared/global db name, e.g for clientprefs
       SBPP_SERVERID: -1 # sourcebans++ server ID, -1 to disable
       WHITELIST: false  # enable whitelist-only mode (true/false)
       AC: true # enable CowAC & AntiDLL (true/false)
