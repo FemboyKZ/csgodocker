@@ -160,7 +160,7 @@ fi
 if [[ "$RTS" == "true" ]]; then
     install_layer "gokz-rts"
 
-    install_mount "gokz-rts.cfg" "addons/sourcemod/configs/gokz-rts.cfg"
+    install_mount "$ID/cfg/gokz-rts.cfg" "addons/sourcemod/configs/gokz-rts.cfg"
 fi
 
 # Install 64tick layer if tickrate is 64, and disable incompatible plugins
