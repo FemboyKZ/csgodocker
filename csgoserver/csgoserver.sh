@@ -2,6 +2,10 @@
 
 set -ueEo pipefail
 
+mkdir -p "/tmp/csgohome/.steam/sdk64" "/tmp/csgohome/.steam/sdk32"
+cp "/watchdog/steamcmd/linux64/steamclient.so" "/tmp/csgohome/.steam/sdk64/"
+cp "/watchdog/steamcmd/linux32/steamclient.so" "/tmp/csgohome/.steam/sdk32/"
+
 server_dir="/tmp/csgoserver"
 mkdir -p "$server_dir"
 
