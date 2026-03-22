@@ -2,7 +2,11 @@
 trap '' SIGINT
 set -ueEo pipefail
 
+# initialize variables
 databases_cfg=""
+actual_gslt=""
+
+# helper functions
 append_database() {
     databases_cfg+="\n\"$1\"\n{\ndriver \"$2\"\nhost \"$3\"\nport \"$4\"\ndatabase \"$5\"\nuser \"$6\"\npass \"$7\"\ntimeout \"$8\"\n}\n"
 }
@@ -16,6 +20,7 @@ install_mount() {
     ln -s "$root/mounts/$1" "$server_dir/csgo/$2"
 }
 
+# wrapper for admin mounts
 install_mount_admins() {
     install_mount "$1/cfg/admins_simple.ini" "addons/sourcemod/configs/admins_simple.ini"
     install_mount "$1/cfg/admins.cfg" "addons/sourcemod/configs/admins.cfg"
@@ -23,12 +28,14 @@ install_mount_admins() {
     install_mount "$1/cfg/admin_overrides.cfg" "addons/sourcemod/configs/admin_overrides.cfg"
 }
 
+# make sure necessary directories exist and copy base game files
 mkdir -p "$server_dir/csgo/cfg" "$server_dir/csgo/maps" "$server_dir/csgo/materials" "$server_dir/csgo/models" "$server_dir/csgo/sound" "$server_dir/csgo/addons"
 cp -rs "$build_dir"/* "$server_dir"
 
 mkdir -p "mounts/replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/cfg" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
 mkdir -p "mounts/fkz-1/sqlite" "mounts/fkz-1/cfg" "mounts/fkz-1/logs/sourcemod" "mounts/fkz-1/logs/csgo" "mounts/fkz-1/logs/GlobalAPI" "mounts/fkz-1/logs/GlobalAPI-Retrying"
 
+# create server.cfg
 cat <<EOF > "$server_dir/csgo/cfg/server.cfg"
     hostname "$HOSTNAME"
     sv_contact "$CONTACT"
@@ -74,54 +81,68 @@ cat <<EOF > "$server_dir/csgo/cfg/server.cfg"
     mp_restartgame 1
 EOF
 
-rm -rf "$server_dir/csgo/webapi_authkey.txt"
+# Set webapi authkey
+rm -f "$server_dir/csgo/webapi_authkey.txt"
 echo "$WS_APIKEY" > "$server_dir/csgo/webapi_authkey.txt"
 
+# Install MM & SM
 install_layer "MetaMod"
 install_layer "SourceMod"
 
+# Remove default plugins that are not needed
 rm -f "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/nextmap.smx"
 
+# Enable mapchooser
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/mapchooser.smx" "$server_dir/csgo/addons/sourcemod/plugins/mapchooser.smx"
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/rockthevote.smx" "$server_dir/csgo/addons/sourcemod/plugins/rockthevote.smx"
 cp "$server_dir/csgo/addons/sourcemod/plugins/disabled/nominations.smx" "$server_dir/csgo/addons/sourcemod/plugins/nominations.smx"
 
-append_database "clientprefs" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "30"
-
+# Install KZ plugins and set API key
 install_layer "MovementAPI"
 install_layer "GOKZ"
-append_database "gokz" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
-echo $KZ_APIKEY > "$server_dir/csgo/cfg/sourcemod/globalapi-key.cfg"
+echo "$KZ_APIKEY" > "$server_dir/csgo/cfg/sourcemod/globalapi-key.cfg"
 
+# Install misc plugins and disable FollowCSGOServerGuidelines to allow plugins that modify gameplay
 install_layer "MiscPlugins"
-append_database "more-stats" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
-append_database "no_dupe_account" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
 sed -i -E "s/(\"FollowCSGOServerGuidelines\"[[:space:]]+)\"[^\"]+\"/\1\"no\"/" "$server_dir/csgo/addons/sourcemod/configs/core.cfg"
 
+# Install SBPP and set serverid, also remove basebans
 install_layer "SBPP"
-append_database "sourcebans" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
 sed -i "s/\"ServerID\"\s*\"[^\"]*\"/\"ServerID\"\t\t\"${SBPP_SERVERID}\"/" "$server_dir/csgo/addons/sourcemod/configs/sourcebans/sourcebans.cfg"
 rm "$server_dir/csgo/addons/sourcemod/plugins/basebans.smx"
 
+# Config general databases
+append_database "clientprefs" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "30"
+append_database "no_dupe_account" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
+append_database "sourcebans" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
+
+# Config tickrate specific databases
+append_database "gokz" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
+append_database "more-stats" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
+
+# Install CowAC and AntiDLL if AC is enabled
 if [[ "$AC" == "true" ]]; then
     install_layer "CowAC"
 fi
 
+# Install whitelist layer if whitelist is enabled
 if [[ "$WHITELIST" == "true" ]]; then
     install_layer "whitelist"
     mkdir -p "mounts/$ID/whitelist"
     install_mount "$ID/whitelist" "addons/sourcemod/configs/whitelist"
 fi
 
+# Install KZ mapchooser (whitelist modifies normal mapchooser stuff so can't be used together)
 if [[ "$WHITELIST" != "true" && "$KZ_MAPTIERS" == "true" ]]; then
     rm -f "$server_dir/csgo/addons/sourcemod/plugins/mapchooser.smx"
     install_layer "KZTierMapchooser"
 fi
 
+# Install server-specific layers and mounts
 if [[ "$MODE" == "fkz-maptest" ]]; then
     install_layer "fkz-maptest"
     install_mount_admins "$ID"
@@ -135,6 +156,14 @@ else
     install_mount_admins "$ID"
 fi
 
+# Install realtime stats layer if enabled
+if [[ "$RTS" == "true" ]]; then
+    install_layer "gokz-rts"
+
+    install_mount "gokz-rts.cfg" "addons/sourcemod/configs/gokz-rts.cfg"
+fi
+
+# Install 64tick layer if tickrate is 64, and disable incompatible plugins
 if [[ "$TICKRATE" == "64" ]]; then
     install_layer "64t"
     rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-mode-simplekz.smx"
@@ -142,6 +171,7 @@ if [[ "$TICKRATE" == "64" ]]; then
     rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
 fi
 
+# Enable auto bunnyhopping if ABH is enabled, also remove incompatible global plugin
 if [[ "$ABH" == "true" ]]; then
     rm -f "$server_dir/csgo/addons/sourcemod/plugins/gokz-global.smx"
     cat <<EOF >> "$server_dir/csgo/cfg/server.cfg"
@@ -152,6 +182,7 @@ if [[ "$ABH" == "true" ]]; then
 EOF
 fi
 
+# Mount mapcycle
 install_mount "mapcycle.txt" "mapcycle.txt"
 
 # Only mount custom maps folder if it has content, otherwise keep base game maps
@@ -159,17 +190,24 @@ if [ "$(ls -A /mounts/maps 2>/dev/null)" ]; then
     install_mount "maps" "maps"
 fi
 
+# Mount ban cfg files
 install_mount "banned_user.cfg" "cfg/banned_user.cfg"
 install_mount "banned_ip.cfg" "cfg/banned_ip.cfg"
 
+# Mount appid kickmsg config
+install_mount "csgo_appid_kickmsg.txt" "addons/sourcemod/configs/csgo_appid_kickmsg.txt"
+
+# Mount replays and sqlite databases
 install_mount "replays/$TICKRATE" "addons/sourcemod/data/gokz-replays"
 install_mount "$ID/sqlite" "addons/sourcemod/data/sqlite"
 
+# Mount logs
 install_mount "$ID/logs/csgo" "logs"
 install_mount "$ID/logs/sourcemod" "addons/sourcemod/logs"
 install_mount "$ID/logs/GlobalAPI" "addons/sourcemod/data/GlobalAPI"
 install_mount "$ID/logs/GlobalAPI-Retrying" "addons/sourcemod/data/GlobalAPI-Retrying"
 
+# Generate databases.cfg with earlier configured database credentials
 cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
 "Databases"
 {
@@ -193,10 +231,8 @@ cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
 }
 EOF
 
-actual_gslt=""
-
+# Whether to use new CS:GO appid (4465480)
 if [[ "$NEW_APPID" == "true" ]]; then
-    # Whether to use new CS:GO appid (4465480)
     if [[ "$GSLT_NEW" != "" ]]; then
         actual_gslt="$GSLT_NEW"
     else
@@ -207,6 +243,9 @@ if [[ "$NEW_APPID" == "true" ]]; then
     sed -i 's/appID=730/appID=4465480/' "$server_dir/csgo/steam.inf"
 else 
     actual_gslt="$GSLT"
+
+    sed -i 's/appID=4465480/appID=730/' "$server_dir/csgo/steam.inf"
 fi
 
+# Finally, launch the server
 "$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE $EXTRA_LAUNCH_OPTS -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$actual_gslt" +map "$MAP" +exec "server.cfg"
