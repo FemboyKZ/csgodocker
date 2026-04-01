@@ -9,6 +9,8 @@ cp "/watchdog/steamcmd/linux32/steamclient.so" "/tmp/csgohome/.steam/sdk32/"
 server_dir="/tmp/csgoserver"
 mkdir -p "$server_dir"
 
+export daily_restart_time="03:00"
+
 for (( first=1;; first=0 )); do
     [ $first -eq 0 ] && sleep 10
 
@@ -19,5 +21,5 @@ for (( first=1;; first=0 )); do
     [ -d "$build_dir" ] || continue
 
     rm -rf "$server_dir"/*
-    LD_LIBRARY_PATH="$server_dir:$server_dir/bin" HOME="/tmp/csgohome" root="" build_ver="$build_ver" build_dir="$build_dir" server_dir="$server_dir" /bin/bash /user/run.sh
+    LD_LIBRARY_PATH="$server_dir:$server_dir/bin" HOME="/tmp/csgohome" root="" build_ver="$build_ver" build_dir="$build_dir" server_dir="$server_dir" daily_restart_time="$daily_restart_time" /bin/bash /user/run.sh
 done
