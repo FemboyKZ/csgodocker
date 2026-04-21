@@ -116,9 +116,11 @@ sed -i "s/\"ServerID\"\s*\"[^\"]*\"/\"ServerID\"\t\t\"${SBPP_SERVERID}\"/" "$ser
 rm "$server_dir/csgo/addons/sourcemod/plugins/basebans.smx"
 
 # Install AutoRestart layer
-install_layer "AutoRestart"
+#install_layer "AutoRestart"
 
 # Config general databases
+append_database "default" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
+append_database "storage-local" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
 append_database "clientprefs" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "30"
 append_database "no_dupe_account" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
 append_database "sourcebans" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" "$DB_USER" "$DB_PASS" "0"
@@ -215,21 +217,6 @@ cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
 "Databases"
 {
     "driver_default"		"mysql"
-    "default"
-	{
-		"driver"			"default"
-		"host"				"localhost"
-		"database"			"sourcemod"
-		"user"				"root"
-		"pass"				""
-		//"timeout"			"0"
-		//"port"			"0"
-	}
-    "storage-local"
-	{
-		"driver"			"sqlite"
-		"database"			"sourcemod-local"
-	}
     $(echo -e "$databases_cfg")
 }
 EOF
