@@ -77,6 +77,8 @@ cat <<EOF > "$server_dir/csgo/cfg/server.cfg"
     writeid
     writeip
 
+    sm_updatemappool
+
     exec fkz-print.cfg
     mp_restartgame 1
 EOF
@@ -189,6 +191,7 @@ fi
 
 # Mount mapcycle
 install_mount "mapcycle.txt" "mapcycle.txt"
+install_mount "mapcycle.txt" "cfg/sourcemod/gokz/gokz-localranks-mappool.cfg"
 
 # Only mount custom maps folder if it has content, otherwise keep base game maps
 if [ "$(ls -A /mounts/maps 2>/dev/null)" ]; then
