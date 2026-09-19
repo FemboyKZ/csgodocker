@@ -1,8 +1,8 @@
 FROM registry.gitlab.steamos.cloud/steamrt/sniper/sdk
 
-RUN apt-get update \
+RUN apt-get update -o Acquire::Check-Valid-Until=false -y \
     && apt-get install -y --no-install-recommends --no-install-suggests \
-        jq python3 python3-pip python3-requests python3-xmltodict libssl-dev:i386 \
+        jq libssl-dev:i386 \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
