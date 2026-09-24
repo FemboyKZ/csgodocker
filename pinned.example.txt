@@ -21,6 +21,7 @@
 # miss 1.0.3
 # bsppeek 1.6.2
 # steamworks v1.2.168
+# sbpp 1.8.4
 
 # kzserveradvisor 1.2.0
 
@@ -41,6 +42,7 @@
 
 # nolobbyreservation v0.0.1
 # showpos v0.0.2
+# demofix v1.0
 # multiappid v1.0.1
 # scoreboardtimer 0.05
 # nms v1.0.1

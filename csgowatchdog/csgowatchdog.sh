@@ -286,12 +286,12 @@ install_sourcemod() {
 update_plugins() {
     local layer_names=(
         "mm" "sm"
-        "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks"
+        "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks" "sbpp"
         "kzserveradvisor"
         "smjansson" "gokz-lead"
         "mapcrashfixer" "globalapi" "itemcrashfix" "itstoodark" "antifun"
         "whitelist" "morestats" "gokzdiscord" "json" "websocket"
-        "nolobbyreservation" "showpos" "multiappid" "scoreboardtimer" "nms" "nightvision"
+        "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
         "ztopwatch" "distbug" "vanillatier"
         "ptah" "weapons" "gloves"
         "cfg"
@@ -313,6 +313,7 @@ update_plugins() {
     #install_git_release      "jvnipers"      "routecalc"                    "ext-steamrt3"                 "routecalc-ext"
     #install_git_release      "jvnipers"      "routecalc"                    "plugin"                       "routecalc"
     install_git_release      "BadServersNet" "SM-SteamWorks"                "linux"                        "steamworks"
+    install_git_release      "sbpp"          "sourcebans-pp"                "plugin-only"                  "sbpp"
 
     # Stable, no updates expected SM plugins
     install_git_release_once "KZGlobalTeam"  "csgo-kz-server-advisor"       "KZServerAdvisor"              "kzserveradvisor"
@@ -334,6 +335,7 @@ update_plugins() {
 
     install_git_release_once "nuxencs"       "NoLobbyReservation"           "NoLobbyReservation"           "nolobbyreservation"
     install_git_release_once "zer0k-z"       "showpos"                      "showpos"                      "showpos"
+    install_git_release_once "zer0k-z"       "demo-record-fix"              "demo-record-fix"              "demofix"
     install_git_release_once "zer0k-z"       "csgo-multi-appid"             "linux"                        "multiappid"
     install_git_release_once "DevRuto"       "GOKZ-Scoreboard-Timer"        "scoreboardtimer"              "scoreboardtimer"
     install_git_release_once "Szwagi"        "no-more-sounds"               "no-more-sounds"               "nms"

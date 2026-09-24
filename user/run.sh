@@ -135,6 +135,7 @@ install_layer "vanillatier"
 install_layer "nolobbyreservation"
 install_layer "mapcrashfixer"
 install_layer "itemcrashfix"
+install_layer "demofix"
 
 # Misc
 install_layer "nms"
@@ -157,7 +158,12 @@ fi
 
 # FKZ API
 if [[ "${RTS,,,}" == "true" ]]; then
-    install_layer "sbpp"
+    install_layer "fkz-api"
+fi
+
+# Anticheat
+if [[ "${AC,,,}" == "true" ]]; then
+    echo "TODO: AC"
 fi
 
 # Create server.cfg

@@ -18,12 +18,12 @@ read_layer_ver() {
 # Mirrors the watchdog's layer list: the server waits until every layer has a build
 required_layers=(
     "mm" "sm"
-    "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks"
+    "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks" "sbpp"
     "kzserveradvisor"
     "mapcrashfixer" "smjansson" "gokz-lead"
     "globalapi" "itemcrashfix" "itstoodark" "antifun"
     "whitelist" "morestats" "gokzdiscord" "json" "websocket"
-    "nolobbyreservation" "showpos" "multiappid" "scoreboardtimer" "nms" "nightvision"
+    "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
     "ztopwatch" "distbug" "vanillatier"
     "ptah" "weapons" "gloves"
     "cfg"
