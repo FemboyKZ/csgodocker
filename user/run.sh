@@ -19,7 +19,8 @@ rm -rf "$server_dir/csgo/addons"
 
 # Make sure necessary directories exist
 mkdir -p "$server_dir/csgo/cfg" "$server_dir/csgo/maps" "$server_dir/csgo/materials" "$server_dir/csgo/models" "$server_dir/csgo/sound" "$server_dir/csgo/addons"
-mkdir -p "mounts/replays" "mounts/maps" "mounts/$ID/sqlite" "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/GlobalAPI" "mounts/$ID/logs/GlobalAPI-Retrying"
+mkdir -p "mounts/replays" "mounts/replays/$TICKRATE" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/sqlite"
+mkdir -p "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/global" "mounts/$ID/logs/global-retry"
 
 # Make sure to use new CS:GO appid (4465480)
 sed -i 's/appID=730/appID=4465480/' "$server_dir/csgo/steam.inf"
@@ -145,17 +146,17 @@ install_layer "weapons"
 install_layer "gloves"
 
 # Whitelist
-if [[ "$WHITELIST" == "true" ]]; then
+if [[ "${WHITELIST,,,}" == "true" ]]; then
     install_layer "whitelist"
 fi
 
 # Sourcebans++
-if [[ "$MODE" == "fkz" ]]; then
+if [[ "${MODE,,,}" == "fkz" ]]; then
     install_layer "sbpp"
 fi
 
 # FKZ API
-if [[ "$RTS" == "true" ]]; then
+if [[ "${RTS,,,}" == "true" ]]; then
     install_layer "sbpp"
 fi
 
@@ -228,8 +229,12 @@ install_mount "$ID/sqlite" "addons/sourcemod/data/sqlite"
 # Mount logs
 install_mount "$ID/logs/csgo" "logs"
 install_mount "$ID/logs/sourcemod" "addons/sourcemod/logs"
-install_mount "$ID/logs/GlobalAPI" "addons/sourcemod/data/GlobalAPI"
-install_mount "$ID/logs/GlobalAPI-Retrying" "addons/sourcemod/data/GlobalAPI-Retrying"
+install_mount "$ID/logs/global" "addons/sourcemod/data/GlobalAPI"
+install_mount "$ID/logs/global-retry" "addons/sourcemod/data/GlobalAPI-Retrying"
+
+# Mount dumps
+rm -rf "/tmp/dumps"
+ln -s "/mounts/$ID/dumps" "/tmp/dumps"
 
 # Init databases
 databases_cfg=""
