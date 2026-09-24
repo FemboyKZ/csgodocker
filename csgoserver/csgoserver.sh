@@ -22,7 +22,7 @@ required_layers=(
     "kzserveradvisor"
     "smjansson" "gokz-lead"
     "mapcrashfixer" "globalapi" "itemcrashfix" "itstoodark" "antifun"
-    "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb"
+    "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "gunmenu"
     "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
     "ztopwatch" "distbug" "vanillatier"
     "ptah" "weapons" "gloves"

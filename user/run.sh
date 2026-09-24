@@ -142,6 +142,7 @@ install_layer "demofix"
 install_layer "nms"
 install_layer "itstoodark"
 install_layer "nightvision"
+install_layer "gunmenu"
 
 # Skins
 install_layer "weapons"
