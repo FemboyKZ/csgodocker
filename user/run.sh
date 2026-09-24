@@ -129,6 +129,7 @@ install_layer "scoreboardtimer"
 install_layer "ztopwatch"
 install_layer "distbug"
 install_layer "vanillatier"
+install_layer "gpb"
 #install_layer "kzserveradvisor"
 
 # Fixes

@@ -290,7 +290,7 @@ update_plugins() {
         "kzserveradvisor"
         "smjansson" "gokz-lead"
         "mapcrashfixer" "globalapi" "itemcrashfix" "itstoodark" "antifun"
-        "whitelist" "morestats" "gokzdiscord" "json" "websocket"
+        "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb"
         "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
         "ztopwatch" "distbug" "vanillatier"
         "ptah" "weapons" "gloves"
@@ -332,6 +332,7 @@ update_plugins() {
     install_git_release_once "FemboyKZ"      "gokz-discord"                 "gokz-discord"                 "gokzdiscord"
     install_git_release_once "FemboyKZ"      "sm-ext-json"                  "sm1.12-steamrt3"              "json"
     install_git_release_once "FemboyKZ"      "sm-ext-websocket"             "steamrt3-sm1.12"              "websocket"
+    install_git_release_once "FemboyKZ"      "gokz-gpb-display"             "gokz-gpb-display"             "gpb"
 
     install_git_release_once "nuxencs"       "NoLobbyReservation"           "NoLobbyReservation"           "nolobbyreservation"
     install_git_release_once "zer0k-z"       "showpos"                      "showpos"                      "showpos"

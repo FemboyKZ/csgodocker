@@ -39,6 +39,7 @@
 # gokzdiscord v0.2.2
 # json 1.1.6
 # websocket 1.0.8
+# gpb 1.1.0
 
 # nolobbyreservation v0.0.1
 # showpos v0.0.2
