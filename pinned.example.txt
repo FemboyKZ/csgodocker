@@ -1,0 +1,57 @@
+# Pins a plugin layer to a specific version, so the watchdog stops updating it.
+#
+# Copy this to watchdog/pinned.txt (the watchdog reads it as /watchdog/pinned.txt).
+# One layer per line: <layer> <version>. Blank lines and # comments are ignored.
+# Edits are picked up on the next watchdog poll, no container restart needed.
+#
+# <layer> is a directory name under watchdog/layers/, and <version> is the GitHub
+# release tag, exactly as it appears in watchdog/layers/<layer>/latest.txt.
+# The "mm" and "sm" layers use the metamod/sourcemod drop name instead, and "cfg" uses a commit sha.
+#
+# If the pinned version isn't installed it is downloaded on the next poll, which does cause one restart onto it.
+
+# mm mmsource-1.12.0-git1226-linux
+# sm sourcemod-1.12.0-git7253-linux
+
+# movementapi 2.5.0
+# gokz 3.7.0
+# mhud v3.0.10
+# autorestart 2.0.0
+# fkz-api 2.3.7
+# miss 1.0.3
+# bsppeek 1.6.2
+# steamworks v1.2.168
+
+# kzserveradvisor 1.2.0
+
+# mapcrashfixer 1.0.1
+# smjansson 2.3.1.3
+# gokz-lead 1.0.1
+
+# globalapi v2.1.0
+# itemcrashfix 0.1
+# itstoodark 1.0
+# antifun 1.0.0
+
+# whitelist 1.6.0
+# morestats v3.1.3
+# gokzdiscord v0.2.2
+# json 1.1.6
+# websocket 1.0.8
+
+# nolobbyreservation v0.0.1
+# showpos v0.0.2
+# multiappid v1.0.1
+# scoreboardtimer 0.05
+# nms v1.0.1
+# nightvision 1.0.1
+
+# ztopwatch v1.0.3
+# distbug v2.0.2
+# vanillatier v1.0.4
+
+# ptah v1.1.4
+# weapons v1.7.8
+# gloves v1.0.5
+
+# cfg 589a7d1ef23baf7f19f46397af7e2f8659533c61
