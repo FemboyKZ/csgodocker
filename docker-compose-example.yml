@@ -1,9 +1,3 @@
-x-default-env: &default-env
-  WS_APIKEY: # https://steamcommunity.com/dev/apikey
-  FASTDL_URL: https://fastdl.somedomain.com/ # fastdl base url
-  STEAMGROUP: 0
-  CONTACT: admin@somedomain.com
-
 services:
   csgowatchdog:
     image: csgowatchdog
@@ -20,6 +14,8 @@ services:
         max-file: 5
         max-size: 10m
     network_mode: bridge
+    env_file:
+      - example.global.env
   csgo-server-1:
     image: csgoserver
     container_name: csgo-server-1
@@ -33,38 +29,9 @@ services:
         max-file: 5
         max-size: 10m
     network_mode: host
-    environment:
-      <<: *default-env
-      ID: 1 # unique ID for this server, used for mount folders
-      HOSTNAME: Kreedz | EU | Public | 128t VNL Global
-      GSLT: "" # https://steamcommunity.com/dev/managegameservers
-      GSLT_NEW: "" # gslt for new app ID (4465480)
-      IP: 0.0.0.0
-      IP_DOMAIN: somedomain.com
-      PORT: 27015
-      RCON_PASSWORD: changeme
-      PASSWORD: ""
-      TICKRATE: 128
-      EXTRA_LAUNCH_OPTS: "" # extra launch options
-      MAP: de_nuke
-      REGION: EU # server region code (EU, NA)
-      TAGS: eu,public,csgo # comma separated list of tags
-      # Database settings
-      DB_PORT: 3306
-      DB_HOST: localhost
-      DB_DRIVER: sqlite
-      DB_USER: root
-      DB_PASS: ""
-      DB_TICKRATE_NAME: sourcemod_128 # tickrate specific db name, e.g for gokz
-      DB_SHARED_NAME: sourcemod # shared/global db name, e.g for clientprefs
-      SBPP_SERVERID: -1 # sourcebans++ server ID, -1 to disable
-      WHITELIST: false  # enable whitelist-only mode (true/false)
-      AC: true # enable CowAC & AntiDLL (true/false)
-      ABH: false # enable ABH (true/false)
-      MODE: "" # server mode (server specific configs)
-      KZ_APIKEY: "" # kz apikey
-      KZ_MAPTIERS: false # enable maptiers integration (true/false)
-      NEW_APPID: false # whether to run server with new app ID (4465480) (true/false)
+    env_file:
+      - example.global.env
+      - exaple1.env
     volumes:
       - ./watchdog:/watchdog
       - ./layers:/layers:ro
