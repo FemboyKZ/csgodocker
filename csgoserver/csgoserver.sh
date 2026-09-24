@@ -53,6 +53,6 @@ for (( first=1;; first=0 )); do
     # Hold shared lock on layers (blocks cleanup) and shared lock on csgo build dir
     (
         flock -s 200
-        flock -ns "$build_dir/.lockfile" --command LD_LIBRARY_PATH="$server_dir:$server_dir/bin" HOME="/tmp/csgohome" root="" build_ver="$build_ver" build_dir="$build_dir" server_dir="$server_dir" /bin/bash /user/run.sh
+        flock -ns "$build_dir/.lockfile" --command "LD_LIBRARY_PATH=\"$server_dir:$server_dir/bin\" HOME=\"/tmp/csgohome\" build_ver=\"$build_ver\" build_dir=\"$build_dir\" server_dir=\"$server_dir\" /bin/bash /user/run.sh"
     ) 200>/watchdog/layers/.lockfile
 done
