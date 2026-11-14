@@ -273,4 +273,4 @@ rm -f "$server_dir/csgo/webapi_authkey.txt"
 echo "$WS_APIKEY" > "$server_dir/csgo/webapi_authkey.txt"
 
 # Run the server.
-"$server_dir/srcds_linux" -game csgo -usercon -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE $EXTRA_LAUNCH_OPTS -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
+"$server_dir/srcds_linux" -game csgo -usercon -console -condebug -strictportbind -ip "$IP" -port "$PORT" -nobreakpad -nowatchdog -nohltv -noautoupdate -tickrate $TICKRATE $EXTRA_LAUNCH_OPTS -apikey "$WS_APIKEY" -maxplayers_override 64 +sv_setsteamaccount "$GSLT" +map "$MAP" +exec "server.cfg"
