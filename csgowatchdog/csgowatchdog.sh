@@ -287,13 +287,13 @@ update_plugins() {
     local layer_names=(
         "mm" "sm"
         "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks" "sbpp"
-        "kzserveradvisor"
-        "smjansson" "gokz-lead"
-        "mapcrashfixer" "globalapi" "itemcrashfix" "itstoodark" "antifun"
-        "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "gunmenu"
+        "kzserveradvisor" "globalapi"
+        "gokz-lead"
+        "mapcrashfixer" "itemcrashfix" "itstoodark" "antifun" "distbug" "showtriggers"
+        "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "redacted" "gunmenu"
         "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
-        "ztopwatch" "distbug" "vanillatier"
-        "ptah" "weapons" "gloves"
+        "ztopwatch" "vanillatier"
+        "smjansson" "ptah" "weapons" "gloves"
         "cfg"
     )
 
@@ -309,23 +309,24 @@ update_plugins() {
     install_git_release      "FemboyKZ"      "csgodocker-autorestart"       "linux-mm-1.12"                "autorestart"
     install_git_release      "FemboyKZ"      "sm-fkz-api"                   "fkz-api"                      "fkz-api"
     install_git_release      "FemboyKZ"      "sm-missedby"                  "missedby"                     "miss"
-    install_git_release      "jvnipers"      "bsp-peek"                     "steamrt3--mm-1.12--sm-1.12"   "bsppeek"
-    #install_git_release      "jvnipers"      "routecalc"                    "ext-steamrt3"                 "routecalc-ext"
+    install_git_release      "jvnipers"      "bsp-peek"                     "linux--sm-1.12"               "bsppeek"
+    #install_git_release      "jvnipers"      "routecalc"                    "linux--sm-1.12"               "routecalc-ext"
     #install_git_release      "jvnipers"      "routecalc"                    "plugin"                       "routecalc"
-    install_git_release      "BadServersNet" "SM-SteamWorks"                "linux"                        "steamworks"
+    install_git_release      "alliedmodders" "SM-SteamWorks"                "linux"                        "steamworks"
     install_git_release      "sbpp"          "sourcebans-pp"                "plugin-only"                  "sbpp"
 
     # Stable, no updates expected SM plugins
     install_git_release_once "KZGlobalTeam"  "csgo-kz-server-advisor"       "KZServerAdvisor"              "kzserveradvisor"
+    install_git_release_once "KZGlobalTeam"  "csgo-sm-globalapi"            "GlobalAPI"                    "globalapi"
 
-    install_git_release_once "jvnipers"      "SMJansson"                    "smjansson"                    "smjansson"
     install_git_release_once "jvnipers"      "gokz-lead"                    "gokz-lead"                    "gokz-lead"
 
     install_git_release_once "misscatmint"   "csgo-fix-mapchange-crash-sm"  "fixcrash"                     "mapcrashfixer"
-    install_git_release_once "misscatmint"   "csgo-sm-globalapi"            "GlobalAPI-latest"             "globalapi"
     install_git_release_once "misscatmint"   "itemcrashfix"                 "itemcrashfix"                 "itemcrashfix"
     install_git_release_once "misscatmint"   "its-too-dark"                 "its-too-dark"                 "itstoodark"
     install_git_release_once "misscatmint"   "gokz-nofun"                   "gokz-nofun"                   "antifun"
+    install_git_release_once "misscatmint"   "sm-distbug"                   "distbugfix"                   "distbug"
+    install_git_release_once "misscatmint"   "sm-showtriggers"              "showtriggers"                 "showtriggers"
 
     install_git_release_once "FemboyKZ"      "sm-server-whitelist-advanced" "serverwhitelistadvanced"      "whitelist"
     install_git_release_once "FemboyKZ"      "more-stats"                   "more-stats"                   "morestats"
@@ -333,6 +334,7 @@ update_plugins() {
     install_git_release_once "FemboyKZ"      "sm-ext-json"                  "sm1.12-steamrt3"              "json"
     install_git_release_once "FemboyKZ"      "sm-ext-websocket"             "steamrt3-sm1.12"              "websocket"
     install_git_release_once "FemboyKZ"      "gokz-gpb-display"             "gokz-gpb-display"             "gpb"
+    install_git_release_once "FemboyKZ"      "gokz-redacted"                "gokz-redacted"                "redacted"
     install_git_release_once "FemboyKZ"      "csgo-gun-menu"                "csgo_gunmenu"                 "gunmenu"
 
     install_git_release_once "nuxencs"       "NoLobbyReservation"           "NoLobbyReservation"           "nolobbyreservation"
@@ -344,9 +346,9 @@ update_plugins() {
     install_git_release_once "GAMMACASE"     "NightVision"                  "nightvision"                  "nightvision"
 
     install_git_release_once "BadServersNet" "sm-zone-stopwatch"            "stopwatch"                    "ztopwatch"
-    install_git_release_once "BadServersNet" "sm-distbug"                   "distbugfix"                   "distbug"
     install_git_release_once "BadServersNet" "sm-vanilla-tier"              "vanilla-tier"                 "vanillatier"
 
+    install_git_release_once "davenonymous"  "SMJansson"                    "linux"                        "smjansson"
     install_git_release_once "komashchenko"  "PTaH"                         "linux"                        "ptah"
     install_git_release_once "kgns"          "weapons"                      "weapons"                      "weapons"
     install_git_release_once "kgns"          "gloves"                       "gloves"                       "gloves"

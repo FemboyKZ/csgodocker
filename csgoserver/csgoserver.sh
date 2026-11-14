@@ -19,13 +19,13 @@ read_layer_ver() {
 required_layers=(
     "mm" "sm"
     "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks" "sbpp"
-    "kzserveradvisor"
-    "smjansson" "gokz-lead"
-    "mapcrashfixer" "globalapi" "itemcrashfix" "itstoodark" "antifun"
-    "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "gunmenu"
+    "kzserveradvisor" "globalapi"
+    "gokz-lead"
+    "mapcrashfixer" "itemcrashfix" "itstoodark" "antifun" "distbug" "showtriggers"
+    "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "redacted" "gunmenu"
     "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
-    "ztopwatch" "distbug" "vanillatier"
-    "ptah" "weapons" "gloves"
+    "ztopwatch" "vanillatier"
+    "smjansson" "ptah" "weapons" "gloves"
     "cfg"
 )
 
