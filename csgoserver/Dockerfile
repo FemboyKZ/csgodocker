@@ -1,15 +1,4 @@
-FROM registry.gitlab.steamos.cloud/steamrt/sniper/sdk
-
-RUN printf '%s\n' \
-    'Acquire::Check-Valid-Until "false";' \
-    'Acquire::AllowReleaseInfoChange::Suite "true";' \
-    'Acquire::AllowReleaseInfoChange::Version "true";' \
-    > /etc/apt/apt.conf.d/99-ci-ignore-expired-release
-
-RUN for list in /etc/apt/sources.list /etc/apt/sources.list.d/*.list; do \
-    [ -f "$list" ] || continue; \
-    sed -i -E 's@^[[:space:]]*deb(-src)?[[:space:]].*deb\.debian\.org/debian-security.*@# & (disabled: bullseye EOL)@' "$list"; \
-done
+FROM registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest
 
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends --no-install-suggests \
