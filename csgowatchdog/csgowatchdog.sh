@@ -297,7 +297,7 @@ update_plugins() {
         "kzserveradvisor" "globalapi"
         "mapcrashfixer" "itemcrashfix" "itstoodark" "antifun" "distbug" "showtriggers"
         "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "redacted" "gunmenu"
-        "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
+        "nolobbyreservation" "showpos" "multiappid" "scoreboardtimer" "nms" "nightvision"
         "ztopwatch" "vanillatier"
         "smjansson" "ptah" "weapons" "gloves"
         "cfg"
@@ -345,7 +345,6 @@ update_plugins() {
 
     install_git_release_once "nuxencs"       "NoLobbyReservation"           "NoLobbyReservation"           "nolobbyreservation"
     install_git_release_once "zer0k-z"       "showpos"                      "showpos"                      "showpos"
-    install_git_release_once "zer0k-z"       "demo-record-fix"              "demo-record-fix"              "demofix"
     install_git_release_once "zer0k-z"       "csgo-multi-appid"             "linux"                        "multiappid"
     install_git_release_once "DevRuto"       "GOKZ-Scoreboard-Timer"        "scoreboardtimer"              "scoreboardtimer"
     install_git_release_once "Szwagi"        "no-more-sounds"               "no-more-sounds"               "nms"
