@@ -20,19 +20,22 @@
 # fkz-api 2.3.7
 # miss 1.0.3
 # bsppeek 1.6.2
+# routecalc 0.7.4
+# routecalc-ext 0.7.4
 # steamworks v1.2.168
 # sbpp 1.8.4
 
 # kzserveradvisor 1.2.0
 
 # mapcrashfixer 1.0.1
-# smjansson 2.3.1.3
+# smjansson v2.15.1-1
 # gokz-lead 1.0.1
 
-# globalapi v2.1.0
+# globalapi 2.1.0
 # itemcrashfix 0.1
 # itstoodark 1.0
 # antifun 1.0.0
+# showtriggers v1.0.0
 
 # whitelist 1.6.0
 # morestats v3.1.3
@@ -40,6 +43,7 @@
 # json 1.1.6
 # websocket 1.0.8
 # gpb 1.1.0
+# redacted 1.0.2
 # gunmenu 1.3
 
 # nolobbyreservation v0.0.1
