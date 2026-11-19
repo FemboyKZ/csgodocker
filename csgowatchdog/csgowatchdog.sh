@@ -293,9 +293,8 @@ install_sourcemod() {
 update_plugins() {
     local layer_names=(
         "mm" "sm"
-        "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "steamworks" "sbpp"
+        "movementapi" "gokz" "mhud" "autorestart" "fkz-api" "miss" "bsppeek" "routecalc" "routecalc-ext" "steamworks" "sbpp"
         "kzserveradvisor" "globalapi"
-        "gokz-lead"
         "mapcrashfixer" "itemcrashfix" "itstoodark" "antifun" "distbug" "showtriggers"
         "whitelist" "morestats" "gokzdiscord" "json" "websocket" "gpb" "redacted" "gunmenu"
         "nolobbyreservation" "showpos" "demofix" "multiappid" "scoreboardtimer" "nms" "nightvision"
