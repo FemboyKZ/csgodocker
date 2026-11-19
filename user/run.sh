@@ -346,6 +346,8 @@ install_cfg "CSGO/sourcemod/rtv.cfg" "cfg/sourcemod/rtv.cfg"
 install_cfg "CSGO/sourcemod/serverwhitelistadvanced.cfg" "cfg/sourcemod/serverwhitelistadvanced.cfg"
 install_cfg "CSGO/sourcemod/sourcebans.cfg" "addons/sourcemod/configs/sourcebans.cfg"
 
+install_cfg "CSGO/sourcemod/gunmenu.ini" "addons/sourcemod/configs/gunmenu.ini"
+
 install_cfg "CS2/fkz-print.cfg" "cfg/fkz-print.cfg"
 
 if [[ "${TICKRATE,,}" == "64" ]]; then
