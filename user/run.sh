@@ -19,7 +19,7 @@ rm -rf "$server_dir/csgo/addons"
 
 # Make sure necessary directories exist
 mkdir -p "$server_dir/csgo/cfg" "$server_dir/csgo/maps" "$server_dir/csgo/materials" "$server_dir/csgo/models" "$server_dir/csgo/sound" "$server_dir/csgo/addons"
-mkdir -p "mounts/replays" "mounts/replays/$TICKRATE" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/sqlite"
+mkdir -p "mounts/replays" "replays/gotas" "mounts/replays/$TICKRATE" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/sqlite"
 mkdir -p "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/csgo" "mounts/$ID/logs/global" "mounts/$ID/logs/global-retry"
 
 # Make sure to use new CS:GO appid (4465480)
@@ -111,13 +111,14 @@ install_layer "smjansson"
 install_layer "ptah"
 install_layer "json"
 install_layer "websocket"
+install_layer "routecalc-ext"
 
 # Install SM Plugins
 
 # KZ
 install_layer "movementapi"
 install_layer "gokz"
-install_layer "gokz-lead"
+#install_layer "gokz-lead"
 install_layer "gokzdiscord"
 install_layer "globalapi"
 install_layer "morestats"
@@ -125,12 +126,14 @@ install_layer "mhud"
 install_layer "miss"
 install_layer "antifun"
 install_layer "showpos"
+install_layer "showtriggers"
 install_layer "scoreboardtimer"
 install_layer "ztopwatch"
 install_layer "distbug"
 install_layer "vanillatier"
 install_layer "gpb"
-#install_layer "kzserveradvisor"
+install_layer "kzserveradvisor"
+install_layer "routecalc"
 
 # Fixes
 install_layer "nolobbyreservation"
@@ -139,10 +142,11 @@ install_layer "itemcrashfix"
 install_layer "demofix"
 
 # Misc
-install_layer "nms"
+install_layer "nms" "" "addons/sourcemod/plugins"
 install_layer "itstoodark"
 install_layer "nightvision"
 install_layer "gunmenu"
+install_layer "redacted"
 
 # Skins
 install_layer "weapons"
@@ -155,7 +159,7 @@ fi
 
 # Sourcebans++
 if [[ "${MODE,,,}" == "fkz" ]]; then
-    install_layer "sbpp"
+    install_layer "sbpp" "sourcebans-pp-*/common"
 fi
 
 # FKZ API
@@ -232,6 +236,7 @@ fi
 
 # Mount data
 install_mount "replays/$TICKRATE" "addons/sourcemod/data/gokz-replays"
+install_mount "replays/gotas" "addons/sourcemod/data/gotas"
 install_mount "$ID/sqlite" "addons/sourcemod/data/sqlite"
 
 # Mount logs
@@ -258,6 +263,7 @@ append_database "missedby" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_SHARED_NAME" 
 # Config tickrate specific databases
 append_database "gokz" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
 append_database "more-stats" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
+append_database "routecalc" "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_TICKRATE_NAME" "$DB_USER" "$DB_PASS" "0"
 
 # Generate databases.cfg with earlier configured database credentials
 cat <<EOF > "$server_dir/csgo/addons/sourcemod/configs/databases.cfg"
