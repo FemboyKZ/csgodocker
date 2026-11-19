@@ -84,20 +84,27 @@ install_git_release() {
     fi
 
     echo "Installing $name: $latest"
-    local asset_url
-    asset_url=$(echo "$release_json" | jq -r --arg pat "$asset_pattern" \
-        '[.assets[] | select((.name | test($pat)) and (.name | test("upgrade") | not) and (.name | test("Website") | not))][0].browser_download_url // empty')
+    local asset_name
+    asset_name=$(echo "$release_json" | jq -r --arg pat "$asset_pattern" \
+        '[.assets[] | select((.name | test($pat)) and (.name | test("upgrade") | not) and (.name | test("Website") | not))][0].name // empty')
 
-    if [[ -z "$asset_url" ]]; then
+    if [[ -z "$asset_name" ]]; then
         echo "ERROR: No asset matched pattern '$asset_pattern' for $owner/$repo"
         echo "Available assets:"
         echo "$release_json" | jq -r '.assets[].name'
         return 1
     fi
 
+    # browser_download_url 404s for private repos even with a token; the API asset url works for both
+    local asset_url
+    asset_url=$(echo "$release_json" | jq -r --arg n "$asset_name" '.assets[] | select(.name == $n) | .url')
+
     local tmp_archive="/tmp/${name}_${latest}"
     rm -f "$tmp_archive"
-    if ! curl -fsSL "$asset_url" -o "$tmp_archive"; then
+    if ! curl -fsSL \
+        ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+        -H "Accept: application/octet-stream" \
+        "$asset_url" -o "$tmp_archive"; then
         echo "ERROR: Failed to download asset for $name: $asset_url"
         rm -f "$tmp_archive"
         return 1
@@ -106,7 +113,7 @@ install_git_release() {
     rm -rf "$tmp_dir"
     mkdir -p "$tmp_dir"
 
-    case "$asset_url" in
+    case "$asset_name" in
         *.zip)
             unzip -o -q "$tmp_archive" -d "$tmp_dir"
             ;;
@@ -116,10 +123,10 @@ install_git_release() {
         *.smx)
             # Bare plugin binary: build the layer tree the release is missing
             mkdir -p "$tmp_dir/addons/sourcemod/plugins"
-            mv "$tmp_archive" "$tmp_dir/addons/sourcemod/plugins/${asset_url##*/}"
+            mv "$tmp_archive" "$tmp_dir/addons/sourcemod/plugins/$asset_name"
             ;;
         *)
-            echo "ERROR: Unknown file extension for $name: $asset_url"
+            echo "ERROR: Unknown file extension for $name: $asset_name"
             rm -f "$tmp_archive"
             rm -rf "$tmp_dir"
             return 1
@@ -304,14 +311,14 @@ update_plugins() {
 
     # SM Plugins
     install_git_release      "FemboyKZ"      "MovementAPI"                  "movementapi"                  "movementapi"
-    install_git_release      "FemboyKZ"      "gokz"                         "gokz"                         "gokz"
+    install_git_release      "FemboyKZ"      "gokz"                         "GOKZ"                         "gokz"
     install_git_release      "FemboyKZ"      "movementhud"                  "movementhud"                  "mhud"
     install_git_release      "FemboyKZ"      "csgodocker-autorestart"       "linux-mm-1.12"                "autorestart"
     install_git_release      "FemboyKZ"      "sm-fkz-api"                   "fkz-api"                      "fkz-api"
     install_git_release      "FemboyKZ"      "sm-missedby"                  "missedby"                     "miss"
     install_git_release      "jvnipers"      "bsp-peek"                     "linux--sm-1.12"               "bsppeek"
-    #install_git_release      "jvnipers"      "routecalc"                    "linux--sm-1.12"               "routecalc-ext"
-    #install_git_release      "jvnipers"      "routecalc"                    "plugin"                       "routecalc"
+    install_git_release      "jvnipers"      "routecalc"                    "linux--sm-1.12"               "routecalc-ext"
+    install_git_release      "jvnipers"      "routecalc"                    "plugin"                       "routecalc"
     install_git_release      "alliedmodders" "SM-SteamWorks"                "linux"                        "steamworks"
     install_git_release      "sbpp"          "sourcebans-pp"                "plugin-only"                  "sbpp"
 
@@ -319,13 +326,13 @@ update_plugins() {
     install_git_release_once "KZGlobalTeam"  "csgo-kz-server-advisor"       "KZServerAdvisor"              "kzserveradvisor"
     install_git_release_once "KZGlobalTeam"  "csgo-sm-globalapi"            "GlobalAPI"                    "globalapi"
 
-    install_git_release_once "jvnipers"      "gokz-lead"                    "gokz-lead"                    "gokz-lead"
+    #install_git_release_once "jvnipers"      "gokz-lead"                    "gokz-lead"                    "gokz-lead"
 
     install_git_release_once "misscatmint"   "csgo-fix-mapchange-crash-sm"  "fixcrash"                     "mapcrashfixer"
     install_git_release_once "misscatmint"   "itemcrashfix"                 "itemcrashfix"                 "itemcrashfix"
     install_git_release_once "misscatmint"   "its-too-dark"                 "its-too-dark"                 "itstoodark"
     install_git_release_once "misscatmint"   "gokz-nofun"                   "gokz-nofun"                   "antifun"
-    install_git_release_once "misscatmint"   "sm-distbug"                   "distbugfix"                   "distbug"
+    install_git_release_once "misscatmint"   "sm-distbug"                   "distbug"                      "distbug"
     install_git_release_once "misscatmint"   "sm-showtriggers"              "showtriggers"                 "showtriggers"
 
     install_git_release_once "FemboyKZ"      "sm-server-whitelist-advanced" "serverwhitelistadvanced"      "whitelist"
