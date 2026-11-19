@@ -23,7 +23,7 @@ rm -rf "$server_dir/csgo/addons" "$server_dir/csgo/cfg/sourcemod"
 
 # Make sure necessary directories exist
 mkdir -p "$server_dir/csgo/cfg" "$server_dir/csgo/maps" "$server_dir/csgo/materials" "$server_dir/csgo/models" "$server_dir/csgo/sound" "$server_dir/csgo/addons"
-mkdir -p "mounts/replays" "mounts/replays/gotas" "mounts/replays/$TICKRATE" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/sqlite"
+mkdir -p "mounts/replays" "mounts/replays/gotas" "mounts/replays/$TICKRATE" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/minidumps" "mounts/$ID/sqlite"
 mkdir -p "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/console" "mounts/$ID/logs/csgo" "mounts/$ID/logs/global" "mounts/$ID/logs/global-retry"
 
 # Make sure to use new CS:GO appid (4465480)
@@ -94,9 +94,10 @@ install_layer "sm"
 
 # Disable FollowCSGOServerGuidelines to allow plugins that modify gameplay
 sed -i -E "s/(\"FollowCSGOServerGuidelines\"[[:space:]]+)\"[^\"]+\"/\1\"no\"/" "$server_dir/csgo/addons/sourcemod/configs/core.cfg"
+sed -i '/"FollowCSGOServerGuidelines"/a\	"MinidumpAccount"	"76561198268569118"' "$server_dir/csgo/addons/sourcemod/configs/core.cfg"
 
 # Remove default plugins that are not needed
-rm -f "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
+#rm -f "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
@@ -159,6 +160,9 @@ install_layer "fkz-api"
 install_layer "weapons"
 install_layer "gloves"
 
+# install accel for debugging
+#install_layer "debug"
+
 # Whitelist
 if [[ "${WHITELIST,,}" == "true" ]]; then
     install_layer "whitelist"
@@ -218,7 +222,8 @@ install_mount "$ID/logs/global-retry" "addons/sourcemod/data/GlobalAPI-Retrying"
 
 # Mount dumps
 rm -rf "/tmp/dumps"
-ln -s "/mounts/$ID/dumps" "/tmp/dumps"
+ln -s "/mounts/$ID/minidumps" "/tmp/dumps"
+install_mount "$ID/dumps" "addons/sourcemod/data/dumps"
 
 # Init databases
 databases_cfg=""
