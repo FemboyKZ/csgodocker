@@ -149,7 +149,6 @@ install_layer "mapcrashfixer"
 install_layer "itemcrashfix"
 
 # Misc
-install_layer "nms" "" "addons/sourcemod/plugins"
 install_layer "itstoodark"
 install_layer "nightvision"
 install_layer "gunmenu"
