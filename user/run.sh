@@ -300,9 +300,10 @@ fi
 
 if [[ "${ID,,}" == test-* ]]; then
     cat <<EOF >> "$server_dir/csgo/cfg/server.cfg"
-
-    sv_cheats 1
-    sm_routecalc_debug 1
+sv_cheats 1
+sm_routecalc_debug 1
+gt_texturebug_debug 0
+gt_texturebug_keys 1
 EOF
 fi
 
@@ -343,7 +344,7 @@ install_cfg "CSGO/sourcemod/mapchooser.cfg" "cfg/sourcemod/mapchooser.cfg"
 install_cfg "CSGO/sourcemod/rtv.cfg" "cfg/sourcemod/rtv.cfg"
 
 install_cfg "CSGO/sourcemod/serverwhitelistadvanced.cfg" "cfg/sourcemod/serverwhitelistadvanced.cfg"
-install_cfg "CSGO/sourcemod/sourcebans.cfg" "addons/sourcemod/configs/sourcebans.cfg"
+install_cfg "CSGO/sourcemod/sourcebans.cfg" "addons/sourcemod/configs/sourcebans/sourcebans.cfg"
 
 install_cfg "CSGO/sourcemod/gunmenu.ini" "addons/sourcemod/configs/gunmenu.ini"
 
@@ -363,6 +364,9 @@ modify_config "$cfg" "server_port" "$PORT"
 
 cfg="$server_dir/csgo/addons/sourcemod/configs/gokz-discord.cfg"
 modify_config "$cfg" "Default" "$DC_GOKZ_WEBHOOK" "Webhook"
+
+cfg="$server_dir/csgo/addons/sourcemod/configs/sourcebans/sourcebans.cfg"
+modify_config "$cfg" "ServerID" "$SBPP_SERVERID"
 
 # Write KZT API key
 rm -f "$server_dir/csgo/cfg/sourcemod/globalapi-key.cfg"
