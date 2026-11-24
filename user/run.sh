@@ -23,7 +23,7 @@ rm -rf "$server_dir/csgo/addons" "$server_dir/csgo/cfg/sourcemod"
 
 # Make sure necessary directories exist
 mkdir -p "$server_dir/csgo/cfg" "$server_dir/csgo/maps" "$server_dir/csgo/materials" "$server_dir/csgo/models" "$server_dir/csgo/sound" "$server_dir/csgo/addons"
-mkdir -p "mounts/replays" "mounts/replays/gotas" "mounts/replays/$TICKRATE" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/minidumps" "mounts/$ID/sqlite"
+mkdir -p "mounts/replays" "mounts/replays/gotas" "mounts/replays/$TICKRATE" "mounts/bsppeek/overlay" "mounts/maps" "mounts/$ID/dumps" "mounts/$ID/minidumps" "mounts/$ID/sqlite"
 mkdir -p "mounts/$ID/logs/sourcemod" "mounts/$ID/logs/console" "mounts/$ID/logs/csgo" "mounts/$ID/logs/global" "mounts/$ID/logs/global-retry"
 
 # Make sure to use new CS:GO appid (4465480)
@@ -97,7 +97,6 @@ sed -i -E "s/(\"FollowCSGOServerGuidelines\"[[:space:]]+)\"[^\"]+\"/\1\"no\"/" "
 sed -i '/"FollowCSGOServerGuidelines"/a\	"MinidumpAccount"	"76561198268569118"' "$server_dir/csgo/addons/sourcemod/configs/core.cfg"
 
 # Remove default plugins that are not needed
-#rm -f "$server_dir/csgo/addons/sourcemod/extensions/updater.ext.so"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/funvotes.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/funcommands.smx"
 rm -f "$server_dir/csgo/addons/sourcemod/plugins/playercommands.smx"
@@ -211,6 +210,7 @@ fi
 install_mount "replays/$TICKRATE" "addons/sourcemod/data/gokz-replays"
 install_mount "replays/gotas" "addons/sourcemod/data/gotas"
 install_mount "$ID/sqlite" "addons/sourcemod/data/sqlite"
+install_mount "bsppeek/overlay" "addons/sourcemod/data/bsppeek/overlay"
 
 # Mount logs
 install_mount "$ID/logs/console/$log_date.log" "console.log"
