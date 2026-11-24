@@ -54,6 +54,7 @@ install_layer() {
 
 install_mount() {
     rm -rf "$server_dir/csgo/$2"
+    mkdir -p "$(dirname "$server_dir/csgo/$2")"
     ln -s "/mounts/$1" "$server_dir/csgo/$2"
 }
 
